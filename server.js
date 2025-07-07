@@ -20,8 +20,7 @@ const authRoutes = require("./routes/authRoutes");
 const zoneRoutes = require("./routes/zoneRoutes");
 
 // ========== Middleware ==========
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://muhafizfrontenduserpanelfinal.vercel.app/"];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
