@@ -1,0 +1,29 @@
+# Node
+node_modules/
+.env
+npm-debug.log
+dist/
+build/
+
+# React
+*.log
+*.cache
+.vite/
+.DS_Store
+
+# Python / Flask
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.env
+venv/
+instance/
+
+# VSCode
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
