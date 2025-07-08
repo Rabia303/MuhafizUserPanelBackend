@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     if (zone) queryString += `zone=${zone}&`;
     if (town) queryString += `town=${encodeURIComponent(town)}&`;
 
-    const flaskUrl = `http://localhost:5001/get-zone-data?${queryString}`;
+    const flaskUrl = `https://a09f8149-40e8-476f-b83f-59e974c76888-00-13yv5jmfpeg3i.sisko.replit.dev/get-zone-data?${queryString}`;
 
     const response = await axios.get(flaskUrl);
     res.json(response.data);
@@ -21,5 +21,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch zone data" });
   }
 });
+
 
 module.exports = router;

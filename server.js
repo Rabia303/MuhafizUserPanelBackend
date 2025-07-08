@@ -24,13 +24,12 @@ const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed for this origin"));
+      return callback(null, true);
     }
-  },
-  credentials: true,
-}));
+    console.warn("Blocked by CORS:", origin);
+    return callback(new Error("Not allowed by CORS"));
+  }
+},));
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -46,7 +45,7 @@ const upload = multer({ dest: "uploads/" });
 app.use("/api/zones", zoneRoutes);
 
 const userRoutes = require("./routes/userRoutes");
-app.use("/api/users", userRoutes); 
+app.use("/api/users", userRoutes);
 
 // Auth
 app.use("/api/auth", authRoutes);
@@ -89,8 +88,8 @@ app.post("/api/posts", verifyToken, upload.array("media"), async (req, res) => {
       type: file.mimetype.startsWith("image")
         ? "image"
         : file.mimetype.startsWith("video")
-        ? "video"
-        : "audio"
+          ? "video"
+          : "audio"
     }));
 
     const tags = Array.isArray(req.body['tags[]'])
@@ -206,8 +205,8 @@ app.post("/api/incidents", verifyToken, upload.fields([
       tags: Array.isArray(req.body['tags[]'])
         ? req.body['tags[]']
         : req.body['tags[]']
-        ? [req.body['tags[]']]
-        : [],
+          ? [req.body['tags[]']]
+          : [],
       witnessCount,
       suspectInfo,
       reportedToPolice,
@@ -281,7 +280,7 @@ app.put("/api/incidents/:id", async (req, res) => {
 app.post("/api/safe-route", async (req, res) => {
   try {
     const response = await axios.post(
-      `http://localhost:5001/safe-route`, // Fixed port number
+      `https://a09f8149-40e8-476f-b83f-59e974c76888-00-13yv5jmfpeg3i.sisko.replit.dev/safe-route`,
       req.body
     );
     res.json(response.data);
@@ -290,6 +289,7 @@ app.post("/api/safe-route", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch from Python API" });
   }
 });
+
 
 app.put("/api/incidents/:id", async (req, res) => {
   try {
